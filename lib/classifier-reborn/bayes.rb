@@ -6,7 +6,7 @@ require 'set'
 
 require_relative 'extensions/tokenizer/whitespace'
 require_relative 'extensions/token_filter/stopword'
-require_relative 'extensions/token_filter/stemmer'
+
 require_relative 'category_namer'
 require_relative 'backends/bayes_memory_backend'
 require_relative 'backends/bayes_redis_backend'
@@ -32,7 +32,7 @@ module ClassifierReborn
       options = { language:         'en',
                   enable_threshold: false,
                   threshold:        0.0,
-                  enable_stemmer:   true,
+                  enable_stemmer:   false,
                   backend:          BayesMemoryBackend.new
                 }
       args.flatten.each do |arg|
@@ -55,9 +55,7 @@ module ClassifierReborn
       @backend             = options[:backend]
       @tokenizer           = options[:tokenizer] || Tokenizer::Whitespace
       @token_filters       = options[:token_filters] || [TokenFilter::Stopword]
-      if @enable_stemmer && !@token_filters.include?(TokenFilter::Stemmer)
-        @token_filters << TokenFilter::Stemmer
-      end
+      
       if @token_filters.include?(TokenFilter::Stopword)
         TokenFilter::Stopword.language = @language
       end
