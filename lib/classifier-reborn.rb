@@ -26,12 +26,7 @@
 
 require 'rubygems'
 
-case RUBY_PLATFORM
-when 'java'
-  require 'jruby-stemmer'
-else
-  require 'fast-stemmer'
-end
+ 
 
 require_relative 'classifier-reborn/category_namer'
 require_relative 'classifier-reborn/bayes'
